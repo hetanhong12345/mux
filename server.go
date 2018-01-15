@@ -10,10 +10,14 @@ import (
 func main() {
 
 	n := negroni.Classic()
+	// 添加全局handler
 	n.UseHandler(handler())
+	// 挂载根路由
 	n.UseHandler(router.Routes)
+	// 监听端口
 	n.Run(":3001")
 }
+
 /*
   全局中间件
 */
