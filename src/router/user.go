@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"service"
 )
 
@@ -10,7 +9,6 @@ func init() {
 
 	User.Handle("/", WrapFunc(service.GetUser))
 	User.Handle("/getInfo", WrapFunc(service.GetInfo))
-	fmt.Println("user")
+	User.Handle("/register", WrapFunc(service.UserRegister)).Methods("POST")
 
 }
-

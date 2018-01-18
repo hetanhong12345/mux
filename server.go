@@ -5,6 +5,7 @@ import (
 	"router"
 	"net/http"
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -14,6 +15,8 @@ func main() {
 	n.UseHandler(handler())
 	// 添加全局handlerFunc
 	n.UseHandlerFunc(handlerFunc)
+	// 添加全局 Func
+	n.UseFunc(Func)
 	// 挂载根路由
 	n.UseHandler(router.Routes)
 	// 监听端口
@@ -25,6 +28,7 @@ func main() {
 */
 func handler() http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		rw.Header().Set("Content-Type", "application/json")
 		fmt.Println("<----middleware---handler-->")
 		fmt.Println(r.Header.Get("User-Agent"))
 
@@ -36,4 +40,17 @@ func handler() http.Handler {
 */
 func handlerFunc(rw http.ResponseWriter, r *http.Request) {
 	fmt.Println("<----middleware---handlerFunc-->")
+}
+
+/*
+  全局中间件 Func
+*/
+func Func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+	then := time.Now().Second()
+	defer func() {
+		cost := (time.Now().Second() - then)
+		fmt.Println("req cost ", cost)
+	}()
+	fmt.Println("<----middleware---Func-->")
+	next(rw, r)
 }
