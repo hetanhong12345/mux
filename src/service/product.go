@@ -20,6 +20,9 @@ func GetProduct(rw http.ResponseWriter, r *http.Request) {
 		Money:    100.5,
 	}
 	outJson, _ := json.Marshal(account)
+	array := [3]int{1, 2, 3}
+	index :=4
+	fmt.Println(array[index])
 	rw.Write(outJson);
 }
 func GetProductInfo(rw http.ResponseWriter, r *http.Request) {

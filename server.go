@@ -46,10 +46,14 @@ func handlerFunc(rw http.ResponseWriter, r *http.Request) {
   全局中间件 Func
 */
 func Func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	then := time.Now().Second()
+	then := time.Now()
 	defer func() {
-		cost := (time.Now().Second() - then)
-		fmt.Println("req cost ", cost)
+		if rec := recover(); rec != nil {
+			fmt.Println("Recovered in f", rec)
+			fmt.Fprintf(rw, "Recovered in f", rec)
+		}
+		diff := time.Now().Sub(then)
+		fmt.Println("req cost ", diff)
 	}()
 	fmt.Println("<----middleware---Func-->")
 	next(rw, r)
