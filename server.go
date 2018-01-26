@@ -50,7 +50,7 @@ func Func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	defer func() {
 		if rec := recover(); rec != nil {
 			fmt.Println("Recovered in f", rec)
-			fmt.Fprintf(rw, "Recovered in f", rec)
+			fmt.Fprintf(rw, "Recovered in f :%v", rec)
 		}
 		diff := time.Now().Sub(then)
 		fmt.Println("req cost ", diff)

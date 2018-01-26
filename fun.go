@@ -1,58 +1,218 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
 	"fmt"
-	"time"
+	"sort"
 )
 
-type User struct {
-	Name  string
-	Age   int
-	Roles []string
-	Skill map[string]float64
-}
-type Account struct {
-	Name     string `json:"name"`
-	Password string `json:"-"`
-}
-
 func main() {
-	account := Account{"hth", "hxx123456"}
-	accountJson, err := json.Marshal(account)
-	if (err != nil) {
-		log.Fatalln(err)
+	matrix := [][]int{{1, 2}, {3, 4}}
+	result := spiralOrder(matrix)
+	for _, r := range result {
+		fmt.Println(r)
 	}
-	fmt.Println(string(accountJson))
-	skill := make(map[string]float64)
+	fmt.Println(generateMatrix(5))
+	intervals := []Interval{{1, 6}, {1, 6}, {8, 10}, {15, 18}}
+	merge(intervals)
+	nums := []int{1, 0, 0, 1, 2, 1, 0}
+	sortColors(nums)
+	fmt.Printf("%#v", nums)
+}
+func spiralOrder(matrix [][]int) []int {
+	if len(matrix) == 0 {
+		return []int{}
+	}
+	if len(matrix[0]) == 0 {
+		return []int{}
+	}
+	return move(matrix, 0, 0, 0, []int{})
 
-	skill["python"] = 99.5
-	skill["elixir"] = 90
-	skill["ruby"] = 80.0
-	myJson := make(map[string]interface{})
-	myJson["aa"] = "bb"
-	myJson["12"] = "34"
-	myJson["_ad"] = true
-	fmt.Println(myJson)
+}
 
-	user := User{
-		Name:  "rsj217",
-		Age:   27,
-		Roles: []string{"Owner", "Master"},
-		Skill: skill,
+/*
+r->移动方向 0:→ ，1：↓，2：←，3：↑
+i，j-> 当前移动到的位置
+result-> 返回值
+*/
+func move(matrix [][]int, r, i, j int, result []int) ([]int) {
+	m := len(matrix)
+	n := len(matrix[0])
+	result = append(result, matrix[i][j])
+	isArrive := 1 << 32
+	matrix[i][j] = isArrive;
+	// to right
+	if r == 0 {
+		if (j < n-1 && matrix[i][j+1] != isArrive) {
+			return move(matrix, 0, i, j+1, result)
+		}
+		if (i < m-1 && matrix[i+1][j] != isArrive) {
+			return move(matrix, 1, i+1, j, result)
+		}
+	}
+	// to bottom
+	if r == 1 {
+		if (i < m-1 && matrix[i+1][j] != isArrive) {
+			return move(matrix, 1, i+1, j, result)
+		}
+		if (j > 0 && matrix[i][j-1] != isArrive) {
+			return move(matrix, 2, i, j-1, result)
+		}
+	}
+	// to left
+	if r == 2 {
+		if (j > 0 && matrix[i][j-1] != isArrive) {
+			return move(matrix, 2, i, j-1, result)
+		}
+		if (i > 0 && matrix[i-1][j] != isArrive) {
+			return move(matrix, 3, i-1, j, result)
+		}
+	}
+	// to top
+	if r == 3 {
+		if (i > 0 && matrix[i-1][j] != isArrive) {
+			return move(matrix, 3, i-1, j, result)
+		}
+		if (j < m-1 && matrix[i][j+1] != isArrive) {
+			return move(matrix, 0, i, j+1, result)
+		}
+	}
+	return result
+
+}
+func generateMatrix(n int) [][]int {
+
+	matrix := [][]int{}
+	if n == 1 {
+		return [][]int{{1}}
+	}
+	for index := 0; index < n; index++ {
+		ts := make([]int, n)
+		matrix = append(matrix, ts)
 	}
 
-	rs, err := json.Marshal(user)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	outJson, err := json.Marshal(myJson)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Println(string(outJson))
+	i := 0
+	j := 0
+	count := 0
+	var r int // 0:→ ，1：↓，2：←，3：上
+	r = 0
+	for count < n*n {
+		count++
+		matrix[i][j] = count
+		//fmt.Printf("i=%d ,j=%d,count=%d,matrix[i][j]=%d\n", i, j, count, matrix[i][j])
+		if r == 0 {
+			if j < n-1 && matrix[i][j+1] == 0 {
+				j++
+				r = 0
+				continue
+			}
+			if i < n-1 && matrix[i+1][j] == 0 {
+				i++
+				r = 1
+				continue
+			}
 
-	fmt.Println(string(rs))
-	fmt.Println(time.Now())
+		}
+		if r == 1 {
+			if i < n-1 && matrix[i+1][j] == 0 {
+				i++
+				r = 1
+				continue
+			}
+			if j > 0 && matrix[i][j-1] == 0 {
+				j--
+				r = 2
+				continue
+			}
+
+		}
+		if r == 2 {
+			if j > 0 && matrix[i][j-1] == 0 {
+				j--
+				r = 2
+				continue
+			}
+			if i > 0 && matrix[i-1][j] == 0 {
+				i--
+				r = 3
+				continue
+			}
+		}
+		if r == 3 {
+			if i > 0 && matrix[i-1][j] == 0 {
+				i--
+				r = 3
+				continue
+			}
+			if j < n-1 && matrix[i][j+1] == 0 {
+				j++
+				r = 0
+				continue
+			}
+		}
+		//fmt.Printf("i=%d ,j=%d,count=%d,matrix[i][j]=%d\n", i, j, count, matrix[i][j])
+
+	}
+	return matrix
+
+}
+
+type Interval struct {
+	Start int
+	End   int
+}
+
+func merge(intervals []Interval) []Interval {
+	results := []Interval{}
+	if len(intervals) == 0 {
+		return results
+	}
+	sort.Slice(intervals[:], func(i, j int) bool {
+		return intervals[i].Start < intervals[j].Start
+	})
+	var temp Interval
+	temp = intervals[0]
+	results = append(results, temp)
+	for _, item := range intervals[1:] {
+		if item.Start > temp.End {
+			temp = item
+			results = append(results, temp)
+
+		}
+		if item.End > temp.End {
+			(temp).End = (item).End
+			results[len(results)-1] = temp
+
+		}
+
+		fmt.Printf("%#v\n", results)
+
+	}
+
+	return results
+
+}
+
+func sortColors(nums []int) {
+	i := 0
+	j := 0
+	for k, _ := range nums {
+		temp := nums[k];
+
+		//assigning the current as max
+		nums[k] = 2;
+
+		// if original is less than 2 then it should be 1
+		if (temp < 2) {
+			nums[j] = 1;
+			j += 1;
+		}
+
+		// if original is less than 1 then it should be 0. The above if statement ensures that 1 - index
+		// will always be greater than 0 - index
+		if (temp < 1) {
+			nums[i] = 0;
+			i += 1;
+		}
+	}
+
 }
