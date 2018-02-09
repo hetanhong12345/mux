@@ -2,65 +2,31 @@
 package main
 
 import (
+	"math"
 	"fmt"
-	"sync"
-	"time"
 )
 
-func main() {
-	var c = 2
-
-	for c < 20 {
-		c++
-		fmt.Printf("faibo %d is %d \n", c, faibo(c))
-	}
-
-	var wg sync.WaitGroup
-	wg.Add(2)
-	go func() {
-		time.Sleep(time.Second * 1)
-		for i := 1; i < 3; i++ {
-			fmt.Println("A:", i)
-		}
-		defer wg.Done()
-	}()
-	go func() {
-
-		for i := 1; i < 3; i++ {
-			fmt.Println("B:", i)
-		}
-		time.Sleep(time.Second * 2)
-		fmt.Println("defer done")
-		defer wg.Done()
-
-	}()
-	wg.Wait()
-	fmt.Println("it's ok")
-	one := make(chan int)
-	two := make(chan int)
-
-	go func() {
-		fmt.Println("---->two start")
-		v := <-one
-		two <- v
-		fmt.Println("---->two end")
-
-	}()
-	go func() {
-		fmt.Println("---->one start")
-		time.Sleep(time.Second * 2)
-		one <- 100
-		fmt.Println("---->one end")
-
-	}()
-	fmt.Println("<-----end")
-	twoValue := <-two
-	fmt.Println("two", twoValue)
-	fmt.Println("<-----end---->")
+type Point struct {
+	X float64
+	Y float64
 }
-func faibo(num int) int {
-	if num <= 2 {
-		return 1
-	}
-	return faibo(num-1) + faibo(num-2)
+
+func (p Point) Distance(q Point) float64 {
+	return math.Hypot(q.X-p.X, q.Y-p.Y)
+
+}
+
+func main() {
+	p := Point{1, 2}
+	q := Point{4, 6}
+
+	distanceFromP := p.Distance        // method value
+	fmt.Println(distanceFromP(q))      // "5"
+	var origin Point                   // {0, 0}
+	fmt.Println(distanceFromP(origin)) // "2.23606797749979", sqrt(5)
+
+	distance := Point.Distance   // method expression
+	fmt.Println(distance(p, q))  // "5"
+	fmt.Printf("%V\n", distance) // "func(Point, Point) float64"
+
 }

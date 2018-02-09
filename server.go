@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/urfave/negroni"
-	"router"
-	"net/http"
 	"fmt"
+	"github.com/urfave/negroni"
+	"net/http"
+	"router"
 	"time"
 )
 

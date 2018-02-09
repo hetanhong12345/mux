@@ -26,7 +26,7 @@ func GetProduct(rw http.ResponseWriter, r *http.Request) {
 	rw.Write(outJson);
 }
 func GetProductInfo(rw http.ResponseWriter, r *http.Request) {
-	time.Sleep(time.Duration(3) * time.Second)
+	time.Sleep(time.Duration(60) * time.Second)
 
 	fmt.Fprintf(rw, "request productsInfo")
 }

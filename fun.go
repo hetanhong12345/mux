@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"time"
 )
 
 func main() {
@@ -17,6 +18,10 @@ func main() {
 	nums := []int{1, 0, 0, 1, 2, 1, 0}
 	sortColors(nums)
 	fmt.Printf("%#v", nums)
+	then := time.Now()
+	fmt.Printf("%d\n", uniquePaths(51, 9))
+	diff := time.Now().Sub(then)
+	fmt.Println("req cost ", diff)
 }
 func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
@@ -214,5 +219,41 @@ func sortColors(nums []int) {
 			i += 1;
 		}
 	}
+
+}
+
+func uniquePaths(m int, n int) int {
+	if m <= 1 || n <= 1 {
+		return 1
+	}
+	if (m > n) {
+		return zuhe(n-1, m+n-2)
+	}
+	return zuhe(m-1, m+n-2)
+
+}
+func zuhe(m, n int) int {
+
+	i := n - m + 1
+	result := 1
+	jSlice := make([]int, m)
+	for j, _ := range jSlice {
+		jSlice[j] = j + 1;
+	}
+	for i <= n {
+		result = result * i;
+		i = i + 1;
+		//fmt.Printf("jslice %v\n", jSlice)
+		for index, item := range jSlice {
+			if (result%(item) == 0) {
+				result = result / item
+				jSlice = append(jSlice[:index], jSlice[index+1:]...)
+				break
+
+			}
+		}
+
+	}
+	return result
 
 }
