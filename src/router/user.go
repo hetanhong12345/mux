@@ -4,6 +4,7 @@ import (
 	"service"
 	"net/http"
 	"fmt"
+	"github.com/gorilla/mux"
 )
 
 func userMiddleware(next http.Handler) http.Handler {
@@ -13,11 +14,10 @@ func userMiddleware(next http.Handler) http.Handler {
 
 	})
 }
-func init() {
-	SubRouter := RootRouter.PathPrefix("/user").Subrouter()
-	SubRouter.Use(userMiddleware)
-	SubRouter.Handle("", WrapFunc(service.GetUser))
-	SubRouter.Handle("/getInfo", WrapFunc(service.GetInfo))
-	SubRouter.Handle("/register", WrapFunc(service.UserRegister)).Methods("POST")
 
+func InitUserRouter(r *mux.Router) {
+	r.Use(userMiddleware)
+	r.Handle("", WrapFunc(service.GetUser))
+	r.Handle("/getInfo", WrapFunc(service.GetInfo))
+	r.Handle("/register", WrapFunc(service.UserRegister)).Methods("POST")
 }
