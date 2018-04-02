@@ -18,7 +18,7 @@ func main() {
 	// 添加全局 Func
 	n.UseFunc(Func)
 	// 挂载根路由
-	n.UseHandler(router.Routes)
+	n.UseHandler(router.RootRouter)
 	// 监听端口
 	n.Run(":3001")
 }
