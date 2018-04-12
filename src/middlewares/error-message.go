@@ -1,5 +1,6 @@
 package middlewares
 
 type ErrorMessage struct {
-	code, msg string
+	Code string `json:"code"`
+	Msg string `json:"msg"`
 }

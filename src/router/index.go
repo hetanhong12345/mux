@@ -10,9 +10,7 @@ var UserRouter *mux.Router
 
 func init() {
 	RootRouter.Use(middlewares.Logger)
-	RootRouter.Use(middlewares.Response)
-	RootRouter.Use(middlewares.Recovery)
-
+	RootRouter.Use(middlewares.ResponseHeader)
 	UserRouter = RootRouter.PathPrefix("/user").Subrouter()
 	InitUserRouter(UserRouter)
 }

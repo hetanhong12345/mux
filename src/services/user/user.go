@@ -23,7 +23,7 @@ func Register(mobile, password string) (*User, error) {
 }
 
 func Login(mobile, password string) (*User, error) {
-	user := User{Mobile: mobile, Password: password}
+	user := User{}
 	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
 		return &User{}, err
 	}
@@ -31,4 +31,16 @@ func Login(mobile, password string) (*User, error) {
 		return &User{}, errors.New("password is incorrect")
 	}
 	return &user, nil
+}
+
+func ChangeName(mobile, name string) (*User, error) {
+	user := User{}
+	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
+		return &User{}, errors.New("mobile is not registed")
+	}
+	if err := db.Model(&user).Update("name", name).Error; err != nil {
+		return &User{}, err
+	}
+	return &user, nil
+
 }

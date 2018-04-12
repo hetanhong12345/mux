@@ -7,12 +7,12 @@ import (
 
 type User struct {
 	gorm.Model
-	Name string `json:"name"`
-	Uuid string `gorm:"not null;unique" json:"uuid"` // 设置字段为非空并唯一
-	Mobile string `gorm:"not null;unique" json:"mobile"` // 设置字段为非空并唯一
-	Password string `gorm:"not null" json:"password"`
-
+	Name     string `json:"name"`
+	Uuid     string `gorm:"not null;unique" json:"uuid"`   // 设置字段为非空并唯一
+	Mobile   string `gorm:"not null;unique" json:"mobile"` // 设置字段为非空并唯一
+	Password string `gorm:"not null" json:"-"`
 }
+
 func (user *User) BeforeCreate(scope *gorm.Scope) error {
 	u2, err := uuid.NewV4()
 	if err != nil {
