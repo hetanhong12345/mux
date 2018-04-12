@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	r := router.RootRouter
+	r := router.Root
 
 	srv := &http.Server{
 		Handler: r,

@@ -69,18 +69,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	result.Code = "200"
 	result.Msg = "ok"
 	result.Data = userInfo
+	cookie := http.Cookie{Name: "mobile", Value: mobile, Path: "/", MaxAge: 86400}
+	http.SetCookie(w, &cookie)
+
 }
 
 func ChangeName(w http.ResponseWriter, r *http.Request) {
 	result := &Result{}
 	defer middlewares.Response(w, result)
-	mobile := r.PostForm["mobile"][0]
+	cookie, _ := r.Cookie("mobile")
 	name := r.PostForm["name"][0]
-	if mobile == "" {
-		result.Code = "400"
-		result.Msg = "mobile is empty"
-		return
-	}
+	mobile := cookie.Value
 	if name == "" {
 		result.Code = "400"
 		result.Msg = "name is empty"
