@@ -17,8 +17,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	result := &Result{}
 
 	defer middlewares.Response(w, result)
-	mobile := r.PostForm["mobile"][0]
-	password := r.PostForm["password"][0]
+	mobile := r.FormValue("mobile")
+	password := r.FormValue("password")
 	if (mobile == "") {
 		result.Code = "400"
 		result.Msg = "mobile is empty"
@@ -46,8 +46,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	result := &Result{}
 
 	defer middlewares.Response(w, result)
-	mobile := r.PostForm["mobile"][0]
-	password := r.PostForm["password"][0]
+	mobile := r.FormValue("mobile")
+	password := r.FormValue("password")
 	if (mobile == "") {
 		result.Code = "400"
 		result.Msg = "mobile is empty"
@@ -78,7 +78,7 @@ func ChangeName(w http.ResponseWriter, r *http.Request) {
 	result := &Result{}
 	defer middlewares.Response(w, result)
 	cookie, _ := r.Cookie("mobile")
-	name := r.PostForm["name"][0]
+	name := r.FormValue("name")
 	mobile := cookie.Value
 	if name == "" {
 		result.Code = "400"
