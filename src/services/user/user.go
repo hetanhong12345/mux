@@ -3,6 +3,7 @@ package user
 import (
 	"sql"
 	"models"
+	"util"
 	"errors"
 )
 
@@ -27,7 +28,7 @@ func Login(mobile, password string) (*User, error) {
 	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
 		return &User{}, err
 	}
-	if user.Password != password {
+	if user.Password != util.Encrypt(password) {
 		return &User{}, errors.New("password is incorrect")
 	}
 	return &user, nil

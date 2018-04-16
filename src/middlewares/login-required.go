@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"net/http"
-	"fmt"
+	"log"
 	"encoding/json"
 )
 
@@ -16,12 +16,12 @@ func LoginRequried(next http.Handler) http.Handler {
 
 		cookie, err := r.Cookie("mobile")
 		if err != nil {
-			fmt.Printf("<----login-required middleware request url is %s ----->\n", r.RequestURI)
+			log.Printf("<----login-required middleware request url is %s ----->\n", r.RequestURI)
 			w.Write(result)
 			return
 		}
 
-		fmt.Printf("<----login-required middleware cookie  is %s ----->\n", cookie)
+		log.Printf("<----login-required middleware cookie  is %s ----->\n", cookie)
 		next.ServeHTTP(w, r)
 	})
 }

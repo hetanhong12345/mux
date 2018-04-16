@@ -7,6 +7,9 @@ import (
 	"log"
 )
 
+func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
+}
 func main() {
 	r := router.Root
 
@@ -20,4 +23,3 @@ func main() {
 
 	log.Fatal(srv.ListenAndServe())
 }
-
