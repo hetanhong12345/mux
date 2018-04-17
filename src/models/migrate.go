@@ -1,10 +1,15 @@
 package models
 
-import "sql"
+import (
+	"sql"
+	"github.com/jinzhu/gorm"
+)
 
-var db = sql.DB()
+var db *gorm.DB
 
 func init() {
+
+	db = sql.DB()
 
 	db.AutoMigrate(&User{})
 

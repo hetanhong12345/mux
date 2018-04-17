@@ -1,13 +1,11 @@
 package user
 
 import (
-	"sql"
 	"models"
 	"util"
 	"errors"
 )
 
-var db = sql.DB()
 
 type User = models.User
 
@@ -16,7 +14,7 @@ func Register(mobile, password string) (*User, error) {
 	if err := user.FindByMobile(mobile); err == nil {
 		return &User{}, errors.New("mobile has registed")
 	}
-	if err := db.Create(&user).Error; err != nil {
+	if err := user.CreateOne(); err != nil {
 		return &User{}, err
 	}
 	return &user, nil

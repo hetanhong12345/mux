@@ -3,8 +3,8 @@ package sql
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"fmt"
 	"sync"
+	"log"
 )
 
 var db *gorm.DB
@@ -15,6 +15,7 @@ var loadDBOnce sync.Once
 func DB() *gorm.DB {
 
 	loadDBOnce.Do(initBD)
+	log.Println("load once sql.DB()")
 
 	return db
 
@@ -23,13 +24,12 @@ func DB() *gorm.DB {
 func initBD() {
 	db, err = gorm.Open("mysql", "root:hxx123456@/golang?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		panic("mysql connect err")
 
 	}
+	log.Println("init sql.DB()")
 	db.DB().SetMaxOpenConns(100)
 	db.DB().SetMaxIdleConns(10)
 	db.LogMode(true)
 }
-
-

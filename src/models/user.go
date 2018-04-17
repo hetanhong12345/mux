@@ -27,6 +27,15 @@ func (user *User) BeforeCreate(scope *gorm.Scope) error {
 	return nil
 }
 
+// 添加一条记录
+func (user *User) CreateOne() error {
+	if err := db.Create(user).Error; err != nil {
+		return err
+	}
+	return nil
+
+}
+
 // 根据mobile查找user
 func (user *User) FindByMobile(mobile string) (error) {
 	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
