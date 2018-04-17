@@ -13,7 +13,7 @@ type User = models.User
 
 func Register(mobile, password string) (*User, error) {
 	user := User{Mobile: mobile, Password: password}
-	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err == nil {
+	if err := user.FindByMobile(mobile); err == nil {
 		return &User{}, errors.New("mobile has registed")
 	}
 	if err := db.Create(&user).Error; err != nil {
@@ -25,7 +25,7 @@ func Register(mobile, password string) (*User, error) {
 
 func Login(mobile, password string) (*User, error) {
 	user := User{}
-	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
+	if err := user.FindByMobile(mobile); err != nil {
 		return &User{}, err
 	}
 	if user.Password != util.Encrypt(password) {
@@ -36,10 +36,12 @@ func Login(mobile, password string) (*User, error) {
 
 func ChangeName(mobile, name string) (*User, error) {
 	user := User{}
-	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
+	if err := user.FindByMobile(mobile); err != nil {
 		return &User{}, errors.New("mobile is not registed")
 	}
-	if err := db.Model(&user).Update("name", name).Error; err != nil {
+	attrs := make(map[string]interface{})
+	attrs["name"] = name
+	if err := user.Update(attrs); err != nil {
 		return &User{}, err
 	}
 	return &user, nil
