@@ -1,9 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"fmt"
 	"github.com/satori/go.uuid"
 )
 
@@ -34,7 +34,7 @@ func (kingold *Kingold) BeforeCreate(scope *gorm.Scope) error {
 	return nil
 }
 func (teacher *Teacher) BeforeCreate(scope *gorm.Scope) error {
-	if (teacher.Age == 0) {
+	if teacher.Age == 0 {
 		panic("Age can not be 0")
 	}
 	return nil

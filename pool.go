@@ -51,6 +51,7 @@ func (db *dbConnection) Close() error {
 }
 
 var idCounter int32
+
 //生成数据库连接的方法，以供资源池使用
 func createConnection() interface{} {
 	//并发安全，给数据库连接生成唯一标志

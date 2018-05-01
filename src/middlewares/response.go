@@ -1,9 +1,9 @@
 package middlewares
 
 import (
-	"net/http"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"net/http"
 )
 
 var recovery = ErrorMessage{"500", "Internal Server Error"}

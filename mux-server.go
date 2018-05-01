@@ -1,10 +1,10 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"router"
 	"time"
-	"log"
 )
 
 func init() {

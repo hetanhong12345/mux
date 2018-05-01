@@ -1,11 +1,10 @@
 package middlewares
 
 import (
-	"net/http"
-	"log"
 	"encoding/json"
+	"log"
+	"net/http"
 )
-
 
 var unauthorized = ErrorMessage{"401", "unauthorized"}
 
