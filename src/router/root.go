@@ -5,15 +5,15 @@ import (
 	"middlewares"
 )
 
-var Root *mux.Router = mux.NewRouter()
-var User *mux.Router
-var AuthUser *mux.Router
+var Root *mux.Router
 
 func init() {
+	Root = mux.NewRouter()
 	Root.Use(middlewares.Logger)
 	Root.Use(middlewares.ResponseHeader)
-	User = Root.PathPrefix("/user").Subrouter()
-	AuthUser = Root.PathPrefix("/auth-user").Subrouter()
+
+	User := Root.PathPrefix("/user").Subrouter()
+	AuthUser := Root.PathPrefix("/auth-user").Subrouter()
 	InitUserRouter(User)
 	InitAUthUserRouter(AuthUser)
 }

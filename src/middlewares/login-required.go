@@ -9,7 +9,7 @@ import (
 
 var unauthorized = ErrorMessage{"401", "unauthorized"}
 
-func LoginRequried(next http.Handler) http.Handler {
+func LoginRequired(next http.Handler) http.Handler {
 	result, _ := json.Marshal(unauthorized)
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

@@ -8,7 +8,7 @@ import (
 
 func InitAUthUserRouter(r *mux.Router) {
 
-	r.Use(middlewares.LoginRequried)
+	r.Use(middlewares.LoginRequired)
 	r.HandleFunc("/changeName", user.ChangeName).Methods("POST")
 
 }
