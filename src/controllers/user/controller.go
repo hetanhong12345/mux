@@ -7,11 +7,7 @@ import (
 	"services/user"
 )
 
-type Result struct {
-	Code string      `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
-}
+type Result = middlewares.ResponseBody
 
 func Register(w http.ResponseWriter, r *http.Request) {
 	result := &Result{}
@@ -37,8 +33,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		result.Msg = fmt.Sprintf("%v", err)
 		return
 	}
-	result.Code = "200"
-	result.Msg = "ok"
+
 	result.Data = userInfo
 
 }
@@ -66,8 +61,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		result.Msg = fmt.Sprintf("%v", err)
 		return
 	}
-	result.Code = "200"
-	result.Msg = "ok"
+
 	result.Data = userInfo
 	cookie := http.Cookie{Name: "mobile", Value: mobile, Path: "/", MaxAge: 86400}
 	http.SetCookie(w, &cookie)
@@ -91,7 +85,5 @@ func ChangeName(w http.ResponseWriter, r *http.Request) {
 		result.Msg = fmt.Sprintf("%v", err)
 		return
 	}
-	result.Code = "200"
-	result.Msg = "ok"
 	result.Data = userInfo
 }
