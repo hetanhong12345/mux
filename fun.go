@@ -39,45 +39,45 @@ r->移动方向 0:→ ，1：↓，2：←，3：↑
 i，j-> 当前移动到的位置
 result-> 返回值
 */
-func move(matrix [][]int, r, i, j int, result []int) ([]int) {
+func move(matrix [][]int, r, i, j int, result []int) []int {
 	m := len(matrix)
 	n := len(matrix[0])
 	result = append(result, matrix[i][j])
 	isArrive := 1 << 32
-	matrix[i][j] = isArrive;
+	matrix[i][j] = isArrive
 	// to right
 	if r == 0 {
-		if (j < n-1 && matrix[i][j+1] != isArrive) {
+		if j < n-1 && matrix[i][j+1] != isArrive {
 			return move(matrix, 0, i, j+1, result)
 		}
-		if (i < m-1 && matrix[i+1][j] != isArrive) {
+		if i < m-1 && matrix[i+1][j] != isArrive {
 			return move(matrix, 1, i+1, j, result)
 		}
 	}
 	// to bottom
 	if r == 1 {
-		if (i < m-1 && matrix[i+1][j] != isArrive) {
+		if i < m-1 && matrix[i+1][j] != isArrive {
 			return move(matrix, 1, i+1, j, result)
 		}
-		if (j > 0 && matrix[i][j-1] != isArrive) {
+		if j > 0 && matrix[i][j-1] != isArrive {
 			return move(matrix, 2, i, j-1, result)
 		}
 	}
 	// to left
 	if r == 2 {
-		if (j > 0 && matrix[i][j-1] != isArrive) {
+		if j > 0 && matrix[i][j-1] != isArrive {
 			return move(matrix, 2, i, j-1, result)
 		}
-		if (i > 0 && matrix[i-1][j] != isArrive) {
+		if i > 0 && matrix[i-1][j] != isArrive {
 			return move(matrix, 3, i-1, j, result)
 		}
 	}
 	// to top
 	if r == 3 {
-		if (i > 0 && matrix[i-1][j] != isArrive) {
+		if i > 0 && matrix[i-1][j] != isArrive {
 			return move(matrix, 3, i-1, j, result)
 		}
-		if (j < m-1 && matrix[i][j+1] != isArrive) {
+		if j < m-1 && matrix[i][j+1] != isArrive {
 			return move(matrix, 0, i, j+1, result)
 		}
 	}
@@ -201,22 +201,22 @@ func sortColors(nums []int) {
 	i := 0
 	j := 0
 	for k, _ := range nums {
-		temp := nums[k];
+		temp := nums[k]
 
 		//assigning the current as max
-		nums[k] = 2;
+		nums[k] = 2
 
 		// if original is less than 2 then it should be 1
-		if (temp < 2) {
-			nums[j] = 1;
-			j += 1;
+		if temp < 2 {
+			nums[j] = 1
+			j += 1
 		}
 
 		// if original is less than 1 then it should be 0. The above if statement ensures that 1 - index
 		// will always be greater than 0 - index
-		if (temp < 1) {
-			nums[i] = 0;
-			i += 1;
+		if temp < 1 {
+			nums[i] = 0
+			i += 1
 		}
 	}
 
@@ -226,7 +226,7 @@ func uniquePaths(m int, n int) int {
 	if m <= 1 || n <= 1 {
 		return 1
 	}
-	if (m > n) {
+	if m > n {
 		return zuhe(n-1, m+n-2)
 	}
 	return zuhe(m-1, m+n-2)
@@ -238,14 +238,14 @@ func zuhe(m, n int) int {
 	result := 1
 	jSlice := make([]int, m)
 	for j, _ := range jSlice {
-		jSlice[j] = j + 1;
+		jSlice[j] = j + 1
 	}
 	for i <= n {
-		result = result * i;
-		i = i + 1;
+		result = result * i
+		i = i + 1
 		//fmt.Printf("jslice %v\n", jSlice)
 		for index, item := range jSlice {
-			if (result%(item) == 0) {
+			if result%(item) == 0 {
 				result = result / item
 				jSlice = append(jSlice[:index], jSlice[index+1:]...)
 				break

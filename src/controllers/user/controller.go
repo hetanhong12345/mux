@@ -1,9 +1,9 @@
 package user
 
 import (
-	"net/http"
 	"fmt"
 	"middlewares"
+	"net/http"
 	"services/user"
 )
 
@@ -19,13 +19,13 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	defer middlewares.Response(w, result)
 	mobile := r.FormValue("mobile")
 	password := r.FormValue("password")
-	if (mobile == "") {
+	if mobile == "" {
 		result.Code = "400"
 		result.Msg = "mobile is empty"
 		return
 
 	}
-	if (password == "") {
+	if password == "" {
 		result.Code = "400"
 		result.Msg = "password is empty"
 		return
@@ -48,13 +48,13 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	defer middlewares.Response(w, result)
 	mobile := r.FormValue("mobile")
 	password := r.FormValue("password")
-	if (mobile == "") {
+	if mobile == "" {
 		result.Code = "400"
 		result.Msg = "mobile is empty"
 		return
 
 	}
-	if (password == "") {
+	if password == "" {
 		result.Code = "400"
 		result.Msg = "password is empty"
 		return

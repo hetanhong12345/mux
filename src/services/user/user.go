@@ -1,11 +1,10 @@
 package user
 
 import (
+	"errors"
 	"models"
 	"util"
-	"errors"
 )
-
 
 type User = models.User
 

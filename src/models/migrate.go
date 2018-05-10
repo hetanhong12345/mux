@@ -1,8 +1,8 @@
 package models
 
 import (
-	"sql"
 	"github.com/jinzhu/gorm"
+	"sql"
 )
 
 var db *gorm.DB

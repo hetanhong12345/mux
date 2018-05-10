@@ -37,7 +37,7 @@ func (user *User) CreateOne() error {
 }
 
 // 根据mobile查找user
-func (user *User) FindByMobile(mobile string) (error) {
+func (user *User) FindByMobile(mobile string) error {
 	if err := db.Where(&User{Mobile: mobile}).First(&user).Error; err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func (user *User) FindByMobile(mobile string) (error) {
 }
 
 // 更新部分字段
-func (user *User) Update(attrs map[string]interface{}) (error) {
+func (user *User) Update(attrs map[string]interface{}) error {
 	if err := db.Model(user).Update(attrs).Error; err != nil {
 		return err
 	}

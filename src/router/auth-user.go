@@ -2,8 +2,8 @@ package router
 
 import (
 	"controllers/user"
-	"middlewares"
 	"github.com/gorilla/mux"
+	"middlewares"
 )
 
 func InitAUthUserRouter(r *mux.Router) {

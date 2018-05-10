@@ -3,8 +3,8 @@ package sql
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"sync"
 	"log"
+	"sync"
 )
 
 var db *gorm.DB

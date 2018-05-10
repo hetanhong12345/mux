@@ -9,6 +9,7 @@ import (
 
 var ErrTimeOut = errors.New("执行者执行超时")
 var ErrInterrupt = errors.New("执行者被中断")
+
 //一个执行者，可以执行任何任务，但是这些任务是限制完成的，
 //该执行者可以通过发送终止信号终止它
 type Runner struct {
