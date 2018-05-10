@@ -1,3 +1,3 @@
-# negroni
+# mux
 
-* a negroni project with golang
+* a mux router project with golang
